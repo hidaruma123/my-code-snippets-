@@ -132,7 +132,7 @@ class RigPickerTool(QtWidgets.QMainWindow):
         
         self.fixed_background_size = QtCore.QSize(800, 600)
         
-        # ★★★ 選択変更を監視するためのタイマーを追加 ★★★
+        # âââ é¸æå¤æ´ãç£è¦ããããã®ã¿ã¤ãã¼ãè¿½å  âââ
         self.selection_timer = QtCore.QTimer()
         self.selection_timer.timeout.connect(self.check_selection_change)
         self.last_selection = []
@@ -143,7 +143,7 @@ class RigPickerTool(QtWidgets.QMainWindow):
         self.toggle_edit_mode(True)
         self.on_shape_changed()
         
-        # ★★★ タイマーを開始（500ms間隔） ★★★
+        # âââ ã¿ã¤ãã¼ãéå§ï¼500msééï¼ âââ
         self.selection_timer.start(500)
 
     def create_widgets(self):
@@ -158,12 +158,12 @@ class RigPickerTool(QtWidgets.QMainWindow):
         self.action_edit_mode.setChecked(True)
         self.toolbar.addAction(self.action_edit_mode)
         
-        # 編集モード用のコントロールパネル
+        # ç·¨éã¢ã¼ãç¨ã®ã³ã³ãã­ã¼ã«ããã«
         self.control_panel = QtWidgets.QFrame()
         self.control_panel.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.control_panel.setFixedWidth(250)
         
-        # 実行モード用のコントロールパネル
+        # å®è¡ã¢ã¼ãç¨ã®ã³ã³ãã­ã¼ã«ããã«
         self.runtime_panel = QtWidgets.QFrame()
         self.runtime_panel.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.runtime_panel.setFixedWidth(250)
@@ -218,7 +218,7 @@ class RigPickerTool(QtWidgets.QMainWindow):
         self.delete_button_btn = QtWidgets.QPushButton("Delete Selected Button(s)")
         self.mirror_button_btn = QtWidgets.QPushButton("Mirror Selected Button")
         
-        # 実行モード用のウィジェット
+        # å®è¡ã¢ã¼ãç¨ã®ã¦ã£ã¸ã§ãã
         self.runtime_actions_group = QtWidgets.QGroupBox("Actions")
         self.mirror_values_btn = QtWidgets.QPushButton("Mirror Selected Values")
         self.mirror_values_btn.setToolTip("Copy attribute values from selected controllers to their mirrored counterparts")
@@ -228,7 +228,7 @@ class RigPickerTool(QtWidgets.QMainWindow):
     def create_layouts(self):
         main_layout = QtWidgets.QHBoxLayout(self.main_widget)
         
-        # 編集モードパネルのレイアウト
+        # ç·¨éã¢ã¼ãããã«ã®ã¬ã¤ã¢ã¦ã
         panel_layout = QtWidgets.QVBoxLayout(self.control_panel)
         panel_layout.addWidget(self.controller_group)
         panel_layout.addWidget(self.button_group)
@@ -237,7 +237,7 @@ class RigPickerTool(QtWidgets.QMainWindow):
         panel_layout.addWidget(self.mirror_button_btn)
         panel_layout.addStretch()
         
-        # 実行モードパネルのレイアウト
+        # å®è¡ã¢ã¼ãããã«ã®ã¬ã¤ã¢ã¦ã
         runtime_layout = QtWidgets.QVBoxLayout(self.runtime_panel)
         runtime_actions_layout = QtWidgets.QVBoxLayout(self.runtime_actions_group)
         runtime_actions_layout.addWidget(self.mirror_values_btn)
@@ -262,30 +262,30 @@ class RigPickerTool(QtWidgets.QMainWindow):
         self.button_shape_combo.currentIndexChanged.connect(self.on_shape_changed)
         self.mirror_button_btn.clicked.connect(self.mirror_selected_button)
         
-        # 実行モードのボタン接続
+        # å®è¡ã¢ã¼ãã®ãã¿ã³æ¥ç¶
         self.mirror_values_btn.clicked.connect(self.mirror_selected_values)
         self.reset_selected_btn.clicked.connect(self.reset_selected_controllers)
 
-    # ★★★ 新しいメソッド：選択の変更をチェック ★★★
+    # âââ æ°ããã¡ã½ããï¼é¸æã®å¤æ´ããã§ãã¯ âââ
     def check_selection_change(self):
-        # 実行モードの時のみ動作
+        # å®è¡ã¢ã¼ãã®æã®ã¿åä½
         if self.action_edit_mode.isChecked():
             return
         
         current_selection = cmds.ls(selection=True, type='transform')
         
-        # 選択が変更されていない場合は何もしない
+        # é¸æãå¤æ´ããã¦ããªãå ´åã¯ä½ãããªã
         if current_selection == self.last_selection:
             return
         
         self.last_selection = current_selection
         
-        # 全てのボタンのハイライトをクリア
+        # å¨ã¦ã®ãã¿ã³ã®ãã¤ã©ã¤ããã¯ãªã¢
         for button in self.picker_buttons:
             button.is_selected = False
             button.update_style()
         
-        # 選択されたコントローラーに対応するボタンをハイライト
+        # é¸æãããã³ã³ãã­ã¼ã©ã¼ã«å¯¾å¿ãããã¿ã³ããã¤ã©ã¤ã
         for controller in current_selection:
             for button in self.picker_buttons:
                 if button.controller == controller:
@@ -293,7 +293,7 @@ class RigPickerTool(QtWidgets.QMainWindow):
                     button.update_style()
                     break
 
-    # ★★★ ウィンドウを閉じる時にタイマーを停止 ★★★
+    # âââ ã¦ã£ã³ãã¦ãéããæã«ã¿ã¤ãã¼ãåæ­¢ âââ
     def closeEvent(self, event):
         self.selection_timer.stop()
         super(RigPickerTool, self).closeEvent(event)
@@ -319,14 +319,14 @@ class RigPickerTool(QtWidgets.QMainWindow):
             button.setCursor(QtCore.Qt.ArrowCursor if checked else QtCore.Qt.PointingHandCursor)
         
         if not checked:
-            # ★★★ 実行モードに切り替えた時、現在の選択をチェック ★★★
+            # âââ å®è¡ã¢ã¼ãã«åãæ¿ããæãç¾å¨ã®é¸æããã§ãã¯ âââ
             self.deselect_all_buttons()
             self.check_selection_change()
         else:
-            # ★★★ 編集モードに切り替えた時、選択をクリア ★★★
+            # âââ ç·¨éã¢ã¼ãã«åãæ¿ããæãé¸æãã¯ãªã¢ âââ
             self.deselect_all_buttons()
 
-    # 実行モード用のメソッド: 選択されたコントローラーの値をミラー（ダイアログなし）
+    # å®è¡ã¢ã¼ãç¨ã®ã¡ã½ãã: é¸æãããã³ã³ãã­ã¼ã©ã¼ã®å¤ããã©ã¼ï¼ãã¤ã¢ã­ã°ãªãï¼
     def mirror_selected_values(self):
         selected_controllers = cmds.ls(selection=True, type='transform')
         if not selected_controllers:
@@ -337,34 +337,34 @@ class RigPickerTool(QtWidgets.QMainWindow):
         failed_controllers = []
         
         for controller in selected_controllers:
-            # プリフィックスに基づいて左右逆側のコントローラーを生成
+            # ããªãã£ãã¯ã¹ã«åºã¥ãã¦å·¦å³éå´ã®ã³ã³ãã­ã¼ã©ã¼ãçæ
             if controller.startswith("Con_L_"):
                 mirrored_controller = controller.replace("Con_L_", "Con_R_", 1)
             elif controller.startswith("Con_R_"):
                 mirrored_controller = controller.replace("Con_R_", "Con_L_", 1)
             else:
-                continue  # 対象外のコントローラーはスキップ
+                continue  # å¯¾è±¡å¤ã®ã³ã³ãã­ã¼ã©ã¼ã¯ã¹ã­ãã
             
-            # ミラーコントローラーが存在するか確認
+            # ãã©ã¼ã³ã³ãã­ã¼ã©ã¼ãå­å¨ãããç¢ºèª
             if not cmds.objExists(mirrored_controller):
                 failed_controllers.append(controller)
                 continue
             
-            # 属性値をコピー
+            # å±æ§å¤ãã³ãã¼
             try:
-                # Transform属性
+                # Transformå±æ§
                 for attr in ['translateX', 'translateY', 'translateZ', 'rotateX', 'rotateY', 'rotateZ', 'scaleX', 'scaleY', 'scaleZ']:
                     if cmds.attributeQuery(attr, node=controller, exists=True) and not cmds.getAttr(controller + '.' + attr, lock=True):
                         value = cmds.getAttr(controller + '.' + attr)
                         
-                        # X軸の値は反転（translate と rotate のみ）
+                        # Xè»¸ã®å¤ã¯åè»¢ï¼translate ã¨ rotate ã®ã¿ï¼
                         if attr in ['translateX', 'rotateY', 'rotateZ']:
                             value = -value
                             
                         if cmds.attributeQuery(attr, node=mirrored_controller, exists=True) and not cmds.getAttr(mirrored_controller + '.' + attr, lock=True):
                             cmds.setAttr(mirrored_controller + '.' + attr, value)
                 
-                # カスタム属性もコピー
+                # ã«ã¹ã¿ã å±æ§ãã³ãã¼
                 user_attrs = cmds.listAttr(controller, userDefined=True) or []
                 for attr in user_attrs:
                     if cmds.attributeQuery(attr, node=mirrored_controller, exists=True):
@@ -373,7 +373,7 @@ class RigPickerTool(QtWidgets.QMainWindow):
                             try:
                                 cmds.setAttr(mirrored_controller + '.' + attr, value)
                             except:
-                                pass  # 型が合わない場合などはスキップ
+                                pass  # åãåããªãå ´åãªã©ã¯ã¹ã­ãã
                 
                 mirrored_count += 1
                 
@@ -381,13 +381,13 @@ class RigPickerTool(QtWidgets.QMainWindow):
                 failed_controllers.append(controller)
                 print("Error mirroring {}: {}".format(controller, str(e)))
         
-        # コンソールに結果を出力
+        # ã³ã³ã½ã¼ã«ã«çµæãåºå
         if mirrored_count > 0:
             print("Successfully mirrored {} controller(s).".format(mirrored_count))
         if failed_controllers:
             print("Failed to mirror: {}".format(", ".join(failed_controllers)))
 
-    # 選択されたコントローラーをリセット（ダイアログなし）
+    # é¸æãããã³ã³ãã­ã¼ã©ã¼ããªã»ããï¼ãã¤ã¢ã­ã°ãªãï¼
     def reset_selected_controllers(self):
         selected_controllers = cmds.ls(selection=True, type='transform')
         if not selected_controllers:
@@ -396,7 +396,7 @@ class RigPickerTool(QtWidgets.QMainWindow):
         
         reset_count = 0
         for controller in selected_controllers:
-            # Transform属性をリセット
+            # Transformå±æ§ããªã»ãã
             for attr in ['translateX', 'translateY', 'translateZ', 'rotateX', 'rotateY', 'rotateZ']:
                 if cmds.attributeQuery(attr, node=controller, exists=True) and not cmds.getAttr(controller + '.' + attr, lock=True):
                     cmds.setAttr(controller + '.' + attr, 0)
@@ -407,7 +407,7 @@ class RigPickerTool(QtWidgets.QMainWindow):
             
             reset_count += 1
         
-        # コンソールに結果を出力
+        # ã³ã³ã½ã¼ã«ã«çµæãåºå
         print("Reset {} controller(s).".format(reset_count))
 
     def add_picker_button(self):
@@ -453,20 +453,20 @@ class RigPickerTool(QtWidgets.QMainWindow):
             QtWidgets.QMessageBox.warning(self, "Warning", "Please select at least one button to mirror.")
             return
         
-        # ミラー可能なボタンとそのミラー先コントローラーをチェック
+        # ãã©ã¼å¯è½ãªãã¿ã³ã¨ãã®ãã©ã¼åã³ã³ãã­ã¼ã©ã¼ããã§ãã¯
         mirrorable_buttons = []
         for button in selected_buttons:
             original_controller = button.controller
             
-            # プリフィックスに基づいて左右逆側のコントローラーを生成
+            # ããªãã£ãã¯ã¹ã«åºã¥ãã¦å·¦å³éå´ã®ã³ã³ãã­ã¼ã©ã¼ãçæ
             if original_controller.startswith("Con_L_"):
                 mirrored_controller = original_controller.replace("Con_L_", "Con_R_", 1)
             elif original_controller.startswith("Con_R_"):
                 mirrored_controller = original_controller.replace("Con_R_", "Con_L_", 1)
             else:
-                continue  # 対象外のコントローラーはスキップ
+                continue  # å¯¾è±¡å¤ã®ã³ã³ãã­ã¼ã©ã¼ã¯ã¹ã­ãã
             
-            # ミラーコントローラーが存在するか確認
+            # ãã©ã¼ã³ã³ãã­ã¼ã©ã¼ãå­å¨ãããç¢ºèª
             if cmds.objExists(mirrored_controller):
                 mirrorable_buttons.append((button, mirrored_controller))
         
@@ -476,7 +476,7 @@ class RigPickerTool(QtWidgets.QMainWindow):
                 "Controllers must start with 'Con_L_' or 'Con_R_' and their mirrored counterparts must exist in the scene.")
             return
         
-        # 確認ダイアログ
+        # ç¢ºèªãã¤ã¢ã­ã°
         skipped_count = len(selected_buttons) - len(mirrorable_buttons)
         message = "Mirror {} button(s)?".format(len(mirrorable_buttons))
         if skipped_count > 0:
@@ -488,22 +488,22 @@ class RigPickerTool(QtWidgets.QMainWindow):
         if reply != QtWidgets.QMessageBox.Yes:
             return
         
-        # 全ての選択を解除
+        # å¨ã¦ã®é¸æãè§£é¤
         for btn in self.picker_buttons:
             if btn.is_selected:
                 btn.is_selected = False
                 btn.update_style()
         
-        # ミラーボタンを作成
+        # ãã©ã¼ãã¿ã³ãä½æ
         created_buttons = []
         for original_button, mirrored_controller in mirrorable_buttons:
-            # カスタムテキストのミラー（L/Rを反転）
+            # ã«ã¹ã¿ã ãã­ã¹ãã®ãã©ã¼ï¼L/Rãåè»¢ï¼
             mirrored_custom_text = original_button.custom_text
             if mirrored_custom_text:
                 mirrored_custom_text = mirrored_custom_text.replace("L", "TEMP").replace("R", "L").replace("TEMP", "R")
                 mirrored_custom_text = mirrored_custom_text.replace("l", "temp").replace("r", "l").replace("temp", "r")
             
-            # 新しいボタンを作成
+            # æ°ãããã¿ã³ãä½æ
             mirrored_button = PickerButton(
                 mirrored_controller, original_button.color_hex, original_button.shape,
                 original_button.width, original_button.height, mirrored_custom_text, self.picker_area_bg_label
@@ -511,7 +511,7 @@ class RigPickerTool(QtWidgets.QMainWindow):
             mirrored_button.selection_request.connect(self.handle_button_selection)
             mirrored_button.text_edit_request.connect(self.edit_button_text)
             
-            # ミラー位置を計算（背景の幅を基準にxを反転）
+            # ãã©ã¼ä½ç½®ãè¨ç®ï¼èæ¯ã®å¹ãåºæºã«xãåè»¢ï¼
             background_width = self.fixed_background_size.width()
             mirrored_x = background_width - original_button.x() - original_button.width
             mirrored_y = original_button.y()
@@ -521,12 +521,12 @@ class RigPickerTool(QtWidgets.QMainWindow):
             self.picker_buttons.append(mirrored_button)
             created_buttons.append(mirrored_button)
         
-        # 新しく作成されたボタンを選択状態にする
+        # æ°ããä½æããããã¿ã³ãé¸æç¶æã«ãã
         for button in created_buttons:
             button.is_selected = True
             button.update_style()
         
-        # 結果メッセージ
+        # çµæã¡ãã»ã¼ã¸
         success_message = "Successfully created {} mirrored button(s).".format(len(created_buttons))
         if skipped_count > 0:
             success_message += "\n{} button(s) were skipped.".format(skipped_count)
